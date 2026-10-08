@@ -543,7 +543,7 @@ def train_loop(config: _config.TrainConfig):
         if use_ddp and hasattr(loader, "set_epoch"):
             loader.set_epoch(global_step // len(loader))
 
-        for observation, actions in loader:
+        for observation, actions, *_ in loader:  # loader also yields action_mask and episode_index
             # Check if we've reached the target number of steps
             if global_step >= config.num_train_steps:
                 break
